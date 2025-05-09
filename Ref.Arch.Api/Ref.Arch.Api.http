@@ -1,0 +1,6 @@
+@Ref.Arch.Api_HostAddress = http://localhost:5149
+
+GET {{Ref.Arch.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
