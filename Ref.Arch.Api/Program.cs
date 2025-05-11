@@ -20,3 +20,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.Run();
+
+// Required to expose for testing
+public partial class Program { }
