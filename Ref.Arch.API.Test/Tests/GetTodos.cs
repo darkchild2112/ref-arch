@@ -5,8 +5,9 @@ namespace Ref.Arch.API.Test.Tests;
 
 public class GetTodos : IntegrationTest
 {
-    private record Todo(int UserId, string Id, string Title, bool Completed);
+    private record Todo(int UserId, int Id, string Title, bool Completed);
 
+    // Move to base class
     private readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
     [Fact]
@@ -34,7 +35,7 @@ public class GetTodos : IntegrationTest
     [Fact]
     public async Task Should_Return_A_Todo()
     {
-        var todoId = "1";
+        var todoId = 1;
         var response = await Client.GetAsync($"/todos/{todoId}");
 
         var content = await response.Content.ReadAsStringAsync();
