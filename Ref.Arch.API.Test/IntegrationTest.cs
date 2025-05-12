@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using System.Text.Json;
+using WireMock.Server;
 
 namespace Ref.Arch.Api.Test;
 
@@ -14,10 +15,13 @@ public abstract class IntegrationTest : IDisposable
     private bool _disposed = false;
     protected static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
+    protected WireMockServer JsonPlaceholderApi { get; init; }
+
     protected HttpClient Client { get; }
 
     public IntegrationTest()
     {
+        JsonPlaceholderApi = WireMockServer.Start();
         Client = CreateClient();
     }
 
@@ -41,7 +45,11 @@ public abstract class IntegrationTest : IDisposable
         builder.AddJsonFile(AppConfigPath, false);
     }
 
-    protected Dictionary<string, string?> GetConfigurationsToOverride() => [];
+    protected virtual Dictionary<string, string?> GetConfigurationsToOverride() =>
+        new()
+        {
+            { "JsonPlaceholder:Url", JsonPlaceholderApi.Url },
+        };
 
     protected void SetupTestServices(IServiceCollection services) { }
 
@@ -55,6 +63,7 @@ public abstract class IntegrationTest : IDisposable
         if (disposing)
         {
             Client.Dispose();
+            JsonPlaceholderApi.Dispose();
         }
 
         _disposed = true;

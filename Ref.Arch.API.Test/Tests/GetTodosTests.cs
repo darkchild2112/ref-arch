@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Routing;
-using System.Net;
+﻿using System.Net;
+using System.Reflection;
 using System.Text.Json;
+using WireMock.RequestBuilders;
+using WireMock.ResponseBuilders;
 
 namespace Ref.Arch.Api.Test.Tests;
 
@@ -13,6 +15,11 @@ public class GetTodosTests : IntegrationTest
     [Fact]
     public async Task Should_Return_Success_Status()
     {
+        JsonPlaceholderApi.Given(
+            Request.Create()
+            .WithPath("/todos"))
+            .RespondWith(Response.Create().WithStatusCode(200).WithBodyFromFile("Data/Todos.json"));
+
         var response = await Client.GetAsync(EndpointAddress);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -21,6 +28,11 @@ public class GetTodosTests : IntegrationTest
     [Fact]
     public async Task Should_Return_An_Array_Of_Todos()
     {
+        JsonPlaceholderApi.Given(
+            Request.Create()
+            .WithPath("/todos"))
+            .RespondWith(Response.Create().WithStatusCode(200).WithBodyFromFile("Data/Todos.json"));
+
         var response = await Client.GetAsync(EndpointAddress);
 
         var content = await response.Content.ReadAsStringAsync();
@@ -42,6 +54,18 @@ public class GetTodosTests : IntegrationTest
     public async Task Should_Return_A_Todo()
     {
         var todoId = 1;
+
+        JsonPlaceholderApi.Given(
+            Request.Create()
+            .WithPath($"/todos/{todoId}"))
+            .RespondWith(Response.Create().WithStatusCode(200).WithBodyAsJson(new 
+            {
+                userId = 1,
+                id = todoId,
+                title = "Sample Todo",
+                completed = false
+            }));
+
         var response = await Client.GetAsync($"{EndpointAddress}/{todoId}");
 
         var content = await response.Content.ReadAsStringAsync();
@@ -57,6 +81,13 @@ public class GetTodosTests : IntegrationTest
     [Fact]
     public async Task Should_Return_Not_Found_Status_When_Given_An_Invalid_Id()
     {
+        var todoId = 1;
+
+        JsonPlaceholderApi.Given(
+            Request.Create()
+            .WithPath($"/todos/{todoId}"))
+            .RespondWith(Response.Create().WithStatusCode(404));
+
         var response = await Client.GetAsync($"{EndpointAddress}/0");
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
