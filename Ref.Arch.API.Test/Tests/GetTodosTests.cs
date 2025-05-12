@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace Ref.Arch.API.Test.Tests;
 
-public class GetTodos : IntegrationTest
+public class GetTodosTests : IntegrationTest
 {
     private record Todo(int UserId, int Id, string Title, bool Completed);
 
@@ -13,15 +13,15 @@ public class GetTodos : IntegrationTest
     [Fact]
     public async Task Should_Return_Success_Status()
     {
-        var response = await Client.GetAsync("/todos");
+        var response = await Client.GetAsync("/api/v1/todos");
 
-        Assert.True(response.StatusCode == HttpStatusCode.OK);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 
     [Fact]
     public async Task Should_Return_An_Array_Of_Todos()
     {
-        var response = await Client.GetAsync("/todos");
+        var response = await Client.GetAsync("/api/v1/todos");
 
         var content = await response.Content.ReadAsStringAsync();
 
@@ -36,7 +36,7 @@ public class GetTodos : IntegrationTest
     public async Task Should_Return_A_Todo()
     {
         var todoId = 1;
-        var response = await Client.GetAsync($"/todos/{todoId}");
+        var response = await Client.GetAsync($"/api/v1/todos/{todoId}");
 
         var content = await response.Content.ReadAsStringAsync();
 
@@ -51,8 +51,8 @@ public class GetTodos : IntegrationTest
     [Fact]
     public async Task Should_Return_Not_Found_Status_When_Given_A_Bad_Id()
     {
-        var response = await Client.GetAsync($"/todos/badId");
+        var response = await Client.GetAsync($"/api/v1/todos/0");
 
-        Assert.True(response.StatusCode == HttpStatusCode.NotFound);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 }

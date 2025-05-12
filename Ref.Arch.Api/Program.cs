@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Ref.Arch.Api.Clients;
-using Ref.Arch.Api.Endpoints.Todos;
+using Ref.Arch.Api.Endpoints;
 using Ref.Arch.Api.Endpoints.Todos.Get;
 
 var builder = WebApplication.CreateBuilder(args);

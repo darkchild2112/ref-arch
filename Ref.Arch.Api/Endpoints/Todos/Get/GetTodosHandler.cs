@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Ref.Arch.Api.Clients;
+﻿using Ref.Arch.Api.Clients.JsonPlaceholder;
 using Ref.Arch.Api.Endpoints.Todos.Dtos;
 
 namespace Ref.Arch.Api.Endpoints.Todos.Get;
@@ -23,5 +22,17 @@ public sealed class GetTodosHandler
         var todoDtos = todos.Select(t => new TodoDto(t.UserId, t.Id, t.Title, t.Completed));
 
         return Results.Ok(todoDtos);
+    }
+
+    public async Task<IResult> HandleAsync(int id, CancellationToken cancellationToken)
+    {
+        var todo = await _client.GetTodoAsync(id, cancellationToken);
+
+        if (todo is null)
+            return Results.NotFound();
+
+        var todoDto = new TodoDto(todo.UserId, todo.Id, todo.Title, todo.Completed);
+
+        return Results.Ok(todoDto);
     }
 }

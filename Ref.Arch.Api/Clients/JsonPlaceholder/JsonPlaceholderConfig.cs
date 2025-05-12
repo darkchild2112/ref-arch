@@ -1,4 +1,4 @@
-﻿namespace Ref.Arch.Api.Clients;
+﻿namespace Ref.Arch.Api.Clients.JsonPlaceholder;
 
 public class JsonPlaceholderConfig
 {

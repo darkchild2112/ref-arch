@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Ref.Arch.Api.Clients;
+namespace Ref.Arch.Api.Clients.JsonPlaceholder;
 
 public class JsonPlaceholderClient
 {
@@ -23,6 +23,22 @@ public class JsonPlaceholderClient
 
         var todos = JsonSerializer.Deserialize<IEnumerable<TodoResponse>>(content, JsonOptions);
 
-        return todos ?? Enumerable.Empty<TodoResponse>();
+        return todos ?? [];
+    }
+
+    public async Task<TodoResponse?> GetTodoAsync(int id, CancellationToken cancellationToken)
+    {
+        var response = await _httpClient.GetAsync($"/todos/{id}", cancellationToken);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            return default;
+        
+        response.EnsureSuccessStatusCode();
+
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        var todo = JsonSerializer.Deserialize<TodoResponse>(content, JsonOptions);
+
+        return todo!;
     }
 }

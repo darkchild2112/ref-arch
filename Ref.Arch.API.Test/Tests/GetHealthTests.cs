@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ref.Arch.API.Test.Tests;
 
-public class GetHealth : IntegrationTest
+public class GetHealthTests : IntegrationTest
 {
     [Fact]
     public async Task Should_Return_Success_Status()
