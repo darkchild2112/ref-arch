@@ -5,12 +5,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using System.Text.Json;
 
 namespace Ref.Arch.Api.Test;
 
 public abstract class IntegrationTest : IDisposable
 {
     private bool _disposed = false;
+    protected static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
+
     protected HttpClient Client { get; }
 
     public IntegrationTest()
