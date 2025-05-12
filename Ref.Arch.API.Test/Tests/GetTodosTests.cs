@@ -49,7 +49,7 @@ public class GetTodosTests : IntegrationTest
     }
 
     [Fact]
-    public async Task Should_Return_Not_Found_Status_When_Given_A_Bad_Id()
+    public async Task Should_Return_Not_Found_Status_When_Given_An_Invalid_Id()
     {
         var response = await Client.GetAsync($"/api/v1/todos/0");
 
