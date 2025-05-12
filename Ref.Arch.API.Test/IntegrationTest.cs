@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
-namespace Ref.Arch.API.Test;
+namespace Ref.Arch.Api.Test;
 
 public abstract class IntegrationTest : IDisposable
 {

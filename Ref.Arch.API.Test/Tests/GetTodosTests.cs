@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 
-namespace Ref.Arch.API.Test.Tests;
+namespace Ref.Arch.Api.Test.Tests;
 
 public class GetTodosTests : IntegrationTest
 {
