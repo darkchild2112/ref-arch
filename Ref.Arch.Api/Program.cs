@@ -3,6 +3,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Ref.Arch.Api.Clients;
 using Ref.Arch.Api.Endpoints;
 using Ref.Arch.Api.Endpoints.Todos.Get;
+using Ref.Arch.Api.Endpoints.Todos.Post;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddHealthChecks();
 
 // Handlers
 builder.Services.AddScoped<GetTodosHandler>();
+builder.Services.AddScoped<PostTodosHandler>();
 
 // Clients
 builder.Services.AddJsonPlaceholderClient(builder.Configuration);

@@ -21,9 +21,9 @@ public class JsonPlaceholderClient
 
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
 
-        var todos = JsonSerializer.Deserialize<IEnumerable<TodoResponse>>(content, JsonOptions);
+        var todos = JsonSerializer.Deserialize<GetTodoResponse>(content, JsonOptions);
 
-        return todos ?? [];
+        return todos?.Todos ?? [];
     }
 
     public async Task<TodoResponse?> GetTodoAsync(int id, CancellationToken cancellationToken)
@@ -40,5 +40,20 @@ public class JsonPlaceholderClient
         var todo = JsonSerializer.Deserialize<TodoResponse>(content, JsonOptions);
 
         return todo!;
+    }
+
+    public async Task<int> CreateTodoAsync(int userId, string title, bool completed, CancellationToken cancellationToken)
+    {
+        var httpContent = new StringContent(JsonSerializer.Serialize(new { UserId = userId, Title = title, Completed = completed }));
+
+        var response = await _httpClient.PostAsync($"/todos", httpContent, cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        var todo = JsonSerializer.Deserialize<PostTodosResponse>(content, JsonOptions);
+
+        return todo?.Id ?? throw new InvalidDataException("Deserialization of POST Todo response failed");
     }
 }

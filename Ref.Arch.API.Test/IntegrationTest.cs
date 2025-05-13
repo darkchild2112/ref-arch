@@ -45,6 +45,8 @@ public abstract class IntegrationTest : IDisposable
         builder.AddJsonFile(AppConfigPath, false);
     }
 
+    // TODO: Mock the JsonPlaceholder API depending on which environment you're testing in
+    // Staging you could use the real API but in production you may want to mock so that we don't create test data in production
     protected virtual Dictionary<string, string?> GetConfigurationsToOverride() =>
         new()
         {
