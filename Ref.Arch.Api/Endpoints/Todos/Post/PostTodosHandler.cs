@@ -1,18 +1,26 @@
-﻿using Ref.Arch.Api.Clients.JsonPlaceholder;
+﻿using FluentValidation;
+using Ref.Arch.Api.Clients.JsonPlaceholder;
 
 namespace Ref.Arch.Api.Endpoints.Todos.Post;
 
 public class PostTodosHandler
 {
     private readonly JsonPlaceholderClient _client;
+    private readonly IValidator<PostTodosRequest> _requestValidator;
 
-    public PostTodosHandler(JsonPlaceholderClient client)
+    public PostTodosHandler(JsonPlaceholderClient client, IValidator<PostTodosRequest> requestValidator)
     {
         _client = client;
+        _requestValidator = requestValidator;
     }
 
     public async Task<IResult> HandleAsync(PostTodosRequest request, CancellationToken cancellationToken)
     {
+        var validationResult = await _requestValidator.ValidateAsync(request);
+
+        if (!validationResult.IsValid)
+            return TypedResults.ValidationProblem(validationResult.ToDictionary());
+
         var todoId = await _client.CreateTodoAsync(request.UserId, request.Title, request.Completed, cancellationToken);
 
         return Results.Created($"api/v1/todos/{todoId}", todoId);

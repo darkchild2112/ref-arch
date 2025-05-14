@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Ref.Arch.Api.Clients;
@@ -13,6 +14,9 @@ builder.Services.AddHealthChecks();
 // Handlers
 builder.Services.AddScoped<GetTodosHandler>();
 builder.Services.AddScoped<PostTodosHandler>();
+
+// Validators
+builder.Services.AddScoped<IValidator<PostTodosRequest>, PostTodosRequestValidator>();
 
 // Clients
 builder.Services.AddJsonPlaceholderClient(builder.Configuration);

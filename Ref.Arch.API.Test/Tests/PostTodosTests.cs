@@ -54,9 +54,10 @@ public class PostTodosTests : IntegrationTest
     [Theory]
     [InlineData(0, "Test Todo", false)] // Invalid UserId
     [InlineData(1, "", false)] // Invalid Title
+    [InlineData(1, "kGqvNEtaYdLbRpWchXnfuJmAHiuhioZiyVMlOjTQxgeFBrCPKUsSzIwDkhnvlyqeYjMTAoHRsNCXpFgLUbmKtdZhVJrwcEaqYplxWnOvjUBisKMHTrDzFYcgPEaQLXWndJotvrhmcNZyukgsBAIqCJmbXTvoWnhplYardcFGZeMRUsKjiECqVtNHoqvNEtaYdLbRpWchXnfuJmAHiuhioZiyVMlOjTQxgeFBrChgtfrdfrtgyhujikolpoi", false)] // Invalid Title Length
     public async Task Should_Fail_With_Invalid_Parameters(int userId, string title, bool completed)
     {
-        var response = await Client.PostAsync("/todos", JsonContent.Create(new TodoRequest(userId, title, completed)));
+        var response = await Client.PostAsync("api/v1/todos", JsonContent.Create(new TodoRequest(userId, title, completed)));
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
