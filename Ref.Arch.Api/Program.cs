@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Ref.Arch.Api.Clients;
 using Ref.Arch.Api.Endpoints;
+using Ref.Arch.Api.Endpoints.Todos.Delete;
 using Ref.Arch.Api.Endpoints.Todos.Get;
 using Ref.Arch.Api.Endpoints.Todos.Post;
 
@@ -12,16 +13,16 @@ builder.Services.AddOpenApi();
 builder.Services.AddHealthChecks();
 
 // Handlers
-builder.Services.AddScoped<GetTodosHandler>();
-builder.Services.AddScoped<PostTodosHandler>();
+builder.Services.AddScoped<GetTodoHandler>();
+builder.Services.AddScoped<PostTodoHandler>();
+builder.Services.AddScoped<DeleteTodoHandler>();
 
 // Validators
-builder.Services.AddScoped<IValidator<PostTodosRequest>, PostTodosRequestValidator>();
+builder.Services.AddScoped<IValidator<PostTodoRequest>, PostTodoRequestValidator>();
+builder.Services.AddScoped<IValidator<int>, DeleteTodoRequestValidator>();
 
 // Clients
 builder.Services.AddJsonPlaceholderClient(builder.Configuration);
-
-
 
 var app = builder.Build();
 

@@ -56,4 +56,11 @@ public class JsonPlaceholderClient
 
         return todo?.Id ?? throw new InvalidDataException("Deserialization of POST Todo response failed");
     }
+
+    public async Task DeleteTodoAsync(int id, CancellationToken cancellationToken)
+    {
+        var response = await _httpClient.DeleteAsync($"/todos/{id}", cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+    }
 }

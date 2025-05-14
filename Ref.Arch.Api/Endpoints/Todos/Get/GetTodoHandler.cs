@@ -3,11 +3,11 @@ using Ref.Arch.Api.Endpoints.Todos.Dtos;
 
 namespace Ref.Arch.Api.Endpoints.Todos.Get;
 
-public sealed class GetTodosHandler
+public sealed class GetTodoHandler
 {
     private readonly JsonPlaceholderClient _client;
 
-    public GetTodosHandler(JsonPlaceholderClient client)
+    public GetTodoHandler(JsonPlaceholderClient client)
     {
         _client = client;
     }

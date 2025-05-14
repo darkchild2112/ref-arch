@@ -5,7 +5,7 @@ using WireMock.ResponseBuilders;
 
 namespace Ref.Arch.Api.Test.Tests;
 
-public class GetTodosTests : IntegrationTest
+public class GetTodoTests : IntegrationTest
 {
     private static readonly string EndpointAddress = "/api/v1/todos";
 

@@ -3,23 +3,23 @@ using Ref.Arch.Api.Clients.JsonPlaceholder;
 
 namespace Ref.Arch.Api.Endpoints.Todos.Post;
 
-public class PostTodosHandler
+public class PostTodoHandler
 {
     private readonly JsonPlaceholderClient _client;
-    private readonly IValidator<PostTodosRequest> _requestValidator;
+    private readonly IValidator<PostTodoRequest> _requestValidator;
 
-    public PostTodosHandler(JsonPlaceholderClient client, IValidator<PostTodosRequest> requestValidator)
+    public PostTodoHandler(JsonPlaceholderClient client, IValidator<PostTodoRequest> requestValidator)
     {
         _client = client;
         _requestValidator = requestValidator;
     }
 
-    public async Task<IResult> HandleAsync(PostTodosRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> HandleAsync(PostTodoRequest request, CancellationToken cancellationToken)
     {
         var validationResult = await _requestValidator.ValidateAsync(request);
 
         if (!validationResult.IsValid)
-            return TypedResults.ValidationProblem(validationResult.ToDictionary());
+            return Results.ValidationProblem(validationResult.ToDictionary());
 
         var todoId = await _client.CreateTodoAsync(request.UserId, request.Title, request.Completed, cancellationToken);
 

@@ -7,7 +7,7 @@ using WireMock.ResponseBuilders;
 
 namespace Ref.Arch.Api.Test.Tests;
 
-public class PostTodosTests : IntegrationTest
+public class PostTodoTests : IntegrationTest
 {
     private record TodoRequest(int UserId, string Title, bool Completed);
 
