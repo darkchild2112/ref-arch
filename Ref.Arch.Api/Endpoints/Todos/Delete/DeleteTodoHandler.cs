@@ -10,13 +10,13 @@ public class DeleteTodoHandler
 
     public DeleteTodoHandler(JsonPlaceholderClient client, IValidator<int> requestValidator)
     {
-        _client = client;
-        _requestValidator = requestValidator;
+        _client = client ?? throw new ArgumentNullException(nameof(client), "must not be null");
+        _requestValidator = requestValidator ?? throw new ArgumentNullException(nameof(requestValidator), "must not be null");
     }
 
     public async Task<IResult> HandleAsync(int id, CancellationToken cancellationToken)
     {
-        var validationResult = await _requestValidator.ValidateAsync(id);
+        var validationResult = await _requestValidator.ValidateAsync(id, cancellationToken);
 
         if (!validationResult.IsValid)
             return Results.ValidationProblem(validationResult.ToDictionary());

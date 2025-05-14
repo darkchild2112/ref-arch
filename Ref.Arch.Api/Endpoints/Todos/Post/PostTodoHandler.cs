@@ -10,13 +10,13 @@ public class PostTodoHandler
 
     public PostTodoHandler(JsonPlaceholderClient client, IValidator<PostTodoRequest> requestValidator)
     {
-        _client = client;
-        _requestValidator = requestValidator;
+        _client = client ?? throw new ArgumentNullException(nameof(client), "must not be null");
+        _requestValidator = requestValidator ?? throw new ArgumentNullException(nameof(requestValidator), "must not be null");
     }
 
     public async Task<IResult> HandleAsync(PostTodoRequest request, CancellationToken cancellationToken)
     {
-        var validationResult = await _requestValidator.ValidateAsync(request);
+        var validationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return Results.ValidationProblem(validationResult.ToDictionary());

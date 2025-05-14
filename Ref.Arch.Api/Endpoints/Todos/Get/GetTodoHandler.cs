@@ -9,7 +9,7 @@ public sealed class GetTodoHandler
 
     public GetTodoHandler(JsonPlaceholderClient client)
     {
-        _client = client;
+        _client = client ?? throw new ArgumentNullException(nameof(client), "must not be null");
     }
 
     public async Task<IResult> HandleAsync(CancellationToken cancellationToken)
