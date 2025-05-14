@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using System.Text;
+using System.Net.Http.Json;
 using System.Text.Json;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
@@ -18,15 +18,13 @@ public class PostTodosTests : IntegrationTest
 
         JsonPlaceholderApi.Given(
             Request.Create()
-            .WithPath("/api/v1/todos")
+            .WithPath("/todos")
             .WithBody(new JsonPartialMatcher(request)))
             .RespondWith(Response.Create()
             .WithStatusCode(201)
             .WithBodyAsJson(new { id = 201 }));
 
-        var httpContent = new StringContent(JsonSerializer.Serialize(request));
-
-        var response = await Client.PostAsync("api/v1/todos", httpContent);
+        var response = await Client.PostAsync("api/v1/todos", JsonContent.Create(request));
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
     }
@@ -38,15 +36,13 @@ public class PostTodosTests : IntegrationTest
 
         JsonPlaceholderApi.Given(
             Request.Create()
-            .WithPath("/api/v1/todos")
+            .WithPath("/todos")
             .WithBody(new JsonPartialMatcher(request)))
             .RespondWith(Response.Create()
             .WithStatusCode(201)
             .WithBodyAsJson(new { id = 300 }));
 
-        var httpContent = new StringContent(JsonSerializer.Serialize(request));
-
-        var response = await Client.PostAsync("api/v1/todos", httpContent);
+        var response = await Client.PostAsync("api/v1/todos", JsonContent.Create(request));
 
         var content = await response.Content.ReadAsStringAsync();
         var todoId = JsonSerializer.Deserialize<int>(content, JsonOptions);
@@ -60,9 +56,7 @@ public class PostTodosTests : IntegrationTest
     [InlineData(1, "", false)] // Invalid Title
     public async Task Should_Fail_With_Invalid_Parameters(int userId, string title, bool completed)
     {
-        var httpContent = new StringContent(JsonSerializer.Serialize(new TodoRequest(userId, title, completed)));
-
-        var response = await Client.PostAsync("api/v1/todos", httpContent);
+        var response = await Client.PostAsync("/todos", JsonContent.Create(new TodoRequest(userId, title, completed)));
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }

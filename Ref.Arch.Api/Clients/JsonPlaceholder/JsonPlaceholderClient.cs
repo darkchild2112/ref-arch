@@ -21,9 +21,9 @@ public class JsonPlaceholderClient
 
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
 
-        var todos = JsonSerializer.Deserialize<GetTodoResponse>(content, JsonOptions);
+        var todos = JsonSerializer.Deserialize<IEnumerable<TodoResponse>>(content, JsonOptions);
 
-        return todos?.Todos ?? [];
+        return todos ?? [];
     }
 
     public async Task<TodoResponse?> GetTodoAsync(int id, CancellationToken cancellationToken)
