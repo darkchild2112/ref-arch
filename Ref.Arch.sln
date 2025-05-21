@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ref.Arch.Api", "Ref.Arch.Api\Ref.Arch.Api.csproj", "{E7756CAB-C6FD-4894-ADE6-FD0AE615D0F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ref.Arch.Api.Test", "Ref.Arch.API.Test\Ref.Arch.Api.Test.csproj", "{A3508B34-85C2-46AC-BBD4-06D9F969CC3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ref.Arch.Api.Test", "Ref.Arch.Api.Test\Ref.Arch.Api.Test.csproj", "{A3508B34-85C2-46AC-BBD4-06D9F969CC3B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
